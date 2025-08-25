@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion生图工具</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <header class="py-3 mb-3 border-bottom">
+            <h1 class="text-center">Notion生图工具</h1>
+        </header>
+
+        <div class="row">
+            <!-- 左侧控制面板 -->
+            <div class="col-md-3">
+                <div class="control-panel p-3 border rounded mb-3">
+                    <h5>内容输入</h5>
+                    <div class="mb-3">
+                        <label for="notionContent" class="form-label">Notion内容</label>
+                        <textarea class="form-control" id="notionContent" rows="6" placeholder="粘贴Notion内容..."></textarea>
+                    </div>
+                    <button class="btn btn-success w-100" id="generatePreview">生成预览</button>
+                </div>
+
+                <div class="settings-panel p-3 border rounded">
+                    <h5>图片设置</h5>
+                    
+                    <!-- 尺寸设置 -->
+                    <div class="mb-3">
+                        <label class="form-label">图片尺寸</label>
+                        <div class="d-flex gap-2 mb-2">
+                            <button class="btn btn-outline-secondary btn-sm flex-grow-1 size-preset active" data-ratio="3:4">3:4</button>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">宽</span>
+                                    <input type="number" class="form-control" id="imageWidth" value="800">
+                                    <span class="input-group-text">px</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">高</span>
+                                    <input type="number" class="form-control" id="imageHeight" value="1000">
+                                    <span class="input-group-text">px</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 边距设置 -->
+                    <div class="mb-3">
+                        <label class="form-label">边距设置</label>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">水平</span>
+                                    <input type="number" class="form-control" id="horizontalPadding" value="6" step="0.1">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">垂直</span>
+                                    <input type="number" class="form-control" id="verticalPadding" value="7" step="0.1">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <small class="text-muted">水平边距：画布宽度的6%，垂直边距：画布高度的7%（顶部略小于底部），确保内容距离边缘最小保持5%安全区域</small>
+                    </div>
+                    
+                    <!-- 行间距设置 -->
+                    <div class="mb-3">
+                        <label for="lineHeight" class="form-label">行间距</label>
+                        <div class="input-group input-group-sm mb-2">
+                            <span class="input-group-text">正文</span>
+                            <input type="number" class="form-control" id="lineHeight" value="1.6" step="0.1" min="1">
+                            <span class="input-group-text">倍</span>
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">标题</span>
+                            <input type="number" class="form-control" id="headingLineHeight" value="1.4" step="0.1" min="1">
+                            <span class="input-group-text">倍</span>
+                        </div>
+                        <small class="text-muted">正文1.6倍（黄金可读比例），标题1.4倍（紧凑有力）</small>
+                    </div>
+                    
+                    <!-- 字体设置 -->
+                    <div class="mb-3">
+                        <label for="fontFamily" class="form-label">字体</label>
+                        <select class="form-select form-select-sm" id="fontFamily">
+                            <option value="黑体" selected>黑体</option>
+                            <option value="宋体">宋体</option>
+                            <option value="楷体">楷体</option>
+                            <option value="微软雅黑">微软雅黑</option>
+                            <option value="苹方">苹方</option>
+                            <option value="思源黑体">思源黑体</option>
+                            <option value="思源宋体">思源宋体</option>
+                            <option value="华文黑体">华文黑体</option>
+                            <option value="华文宋体">华文宋体</option>
+                            <option value="华文楷体">华文楷体</option>
+                            <option value="方正黑体">方正黑体</option>
+                            <option value="方正宋体">方正宋体</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Helvetica">Helvetica</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Courier New">Courier New</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 对齐方式 -->
+                    <div class="mb-3">
+                        <label class="form-label">对齐方式</label>
+                        <div class="btn-group w-100" role="group">
+                            <input type="radio" class="btn-check" name="textAlign" id="alignLeft" value="left" checked>
+                            <label class="btn btn-outline-secondary btn-sm" for="alignLeft"><i class="bi bi-text-left"></i></label>
+                            
+                            <input type="radio" class="btn-check" name="textAlign" id="alignCenter" value="center">
+                            <label class="btn btn-outline-secondary btn-sm" for="alignCenter"><i class="bi bi-text-center"></i></label>
+                            
+                            <input type="radio" class="btn-check" name="textAlign" id="alignRight" value="right">
+                            <label class="btn btn-outline-secondary btn-sm" for="alignRight"><i class="bi bi-text-right"></i></label>
+                        </div>
+                    </div>
+                    
+                    <!-- 字号设置 -->
+                    <div class="mb-3">
+                        <label class="form-label">字号设置</label>
+                        <div class="input-group input-group-sm mb-2">
+                            <span class="input-group-text">正文</span>
+                            <input type="number" class="form-control" id="bodyFontSize" value="18">
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <div class="input-group input-group-sm mb-2">
+                            <span class="input-group-text">H3</span>
+                            <input type="number" class="form-control" id="h3FontSize" value="23" readonly>
+                            <span class="input-group-text">px</span>
+                            <small class="text-muted">（正文×1.25）</small>
+                        </div>
+                        <div class="input-group input-group-sm mb-2">
+                            <span class="input-group-text">H2</span>
+                            <input type="number" class="form-control" id="h2FontSize" value="27" readonly>
+                            <span class="input-group-text">px</span>
+                            <small class="text-muted">（正文×1.5）</small>
+                        </div>
+                        <div class="input-group input-group-sm mb-2">
+                            <span class="input-group-text">H1</span>
+                            <input type="number" class="form-control" id="h1FontSize" value="32" readonly>
+                            <span class="input-group-text">px</span>
+                            <small class="text-muted">（正文×1.8）</small>
+                        </div>
+                        <small class="text-muted">标题字号自动根据正文字号计算，并自动加粗</small>
+                    </div>
+                    
+
+                </div>
+            </div>
+            
+            <!-- 右侧预览区域 -->
+            <div class="col-md-9">
+                <div class="preview-container p-3 border rounded position-relative">
+                    <!-- 配色和下载功能区 -->
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <!-- 配色方案 -->
+                            <div class="mb-3">
+                                <label class="form-label">配色方案</label>
+                                <div class="d-flex gap-2 mb-2">
+                                    <button class="btn btn-outline-secondary btn-sm flex-grow-1 color-preset" data-bg="#fff9f5" data-title="#e60023" data-text="#333333">经典</button>
+                                    <button class="btn btn-outline-secondary btn-sm flex-grow-1 color-preset" data-bg="#F9F9F9" data-title="#222222" data-text="#444444">极简</button>
+                                    <button class="btn btn-outline-secondary btn-sm flex-grow-1 color-preset" data-bg="#1C1C28" data-title="#E6E1C8" data-text="#D8D3BA">夜间</button>
+                                </div>
+                                <div class="d-flex gap-2 mb-2">
+                                    <button class="btn btn-outline-secondary btn-sm flex-grow-1 color-preset" data-bg="#5b8881" data-title="#ffffff" data-text="#ffffff" data-title-bg="#b9c7a4">小清新</button>
+                                    <button class="btn btn-outline-secondary btn-sm flex-grow-1 color-preset" data-bg="#07553a" data-title="#cfd468" data-text="#ffffff">森系</button>
+                                    <button class="btn btn-outline-secondary btn-sm flex-grow-1 color-preset" data-bg="#697ba3" data-title="#fedfdd" data-text="#fedfdd">梦幻</button>
+                                </div>
+                                <div class="d-flex gap-2 mb-2">
+                                    <button class="btn btn-outline-secondary btn-sm flex-grow-1 color-preset" data-bg="#2a9293" data-title="#fbdec0" data-text="#fbdec0">多巴胺</button>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">背景</span>
+                                            <input type="text" class="form-control" id="backgroundColor" value="#F9F9F9">
+                                            <button class="btn btn-outline-secondary color-picker" data-target="backgroundColor"><i class="bi bi-palette"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">标题</span>
+                                            <input type="text" class="form-control" id="headingColor" value="#222222">
+                                            <button class="btn btn-outline-secondary color-picker" data-target="headingColor"><i class="bi bi-palette"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">正文</span>
+                                            <input type="text" class="form-control" id="bodyColor" value="#444444">
+                                            <button class="btn btn-outline-secondary color-picker" data-target="bodyColor"><i class="bi bi-palette"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- 下载设置 -->
+                            <div class="mb-3">
+                                <label class="form-label">下载设置</label>
+                                <div class="d-flex gap-2 mb-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="downloadFormat" id="formatPNG" value="png" checked>
+                                        <label class="form-check-label" for="formatPNG">PNG</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="downloadFormat" id="formatJPG" value="jpg">
+                                        <label class="form-check-label" for="formatJPG">JPG</label>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary btn-sm flex-grow-1" id="downloadCurrent"><i class="bi bi-download"></i> 下载当前页</button>
+                                    <button class="btn btn-primary btn-sm flex-grow-1" id="downloadAll"><i class="bi bi-download"></i> 下载所有页</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-navigation d-flex justify-content-between align-items-center mb-3">
+                        <button class="btn btn-sm btn-outline-secondary" id="prevPage" disabled><i class="bi bi-chevron-left"></i> 上一页</button>
+                        <div id="pageIndicator">第 <span id="currentPage">1</span> 页 / 共 <span id="totalPages">1</span> 页</div>
+                        <button class="btn btn-sm btn-outline-secondary" id="nextPage" disabled>下一页 <i class="bi bi-chevron-right"></i></button>
+                    </div>
+                    
+                    <div id="previewArea" class="d-flex justify-content-center align-items-center">
+                        <div id="imageContainer" class="position-relative">
+                            <!-- 预览图片将在这里生成 -->
+                            <div class="empty-state text-center p-5">
+                                <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
+                                <p class="mt-3">请在左侧输入Notion内容并点击"生成预览"按钮</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 颜色选择器模态框 -->
+    <div class="modal fade" id="colorPickerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">选择颜色</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="color" id="colorPicker" class="form-control form-control-color w-100">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="applyColor">应用</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

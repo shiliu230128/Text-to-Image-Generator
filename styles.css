@@ -1,0 +1,189 @@
+/* 全局样式 */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* 控制面板样式 */
+.control-panel, .settings-panel {
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 预览容器样式 */
+.preview-container {
+    background-color: #fff;
+    min-height: 600px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#previewArea {
+    min-height: 500px;
+    overflow: auto;
+}
+
+#imageContainer {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 图片预览样式 */
+.notion-page {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    display: block;
+    transform-origin: top left;
+}
+
+/* 空状态样式 */
+.empty-state {
+    color: #adb5bd;
+}
+
+/* 颜色选择器样式 */
+.color-picker {
+    cursor: pointer;
+}
+
+/* 预设按钮激活状态 */
+.btn-outline-secondary.active {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* 页面导航样式 */
+.preview-navigation {
+    background-color: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+#pageIndicator {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .col-md-3, .col-md-9 {
+        margin-bottom: 20px;
+    }
+}
+
+/* 自定义字体样式 */
+.font-heiti {
+    font-family: "黑体", sans-serif;
+}
+
+.font-songti {
+    font-family: "宋体", serif;
+}
+
+.font-kaiti {
+    font-family: "楷体", cursive;
+}
+
+.font-source-han-sans {
+    font-family: "思源黑体", "Source Han Sans", sans-serif;
+}
+
+.font-microsoft-yahei {
+    font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+}
+
+.font-pingfang {
+    font-family: "苹方", "PingFang SC", sans-serif;
+}
+
+/* Notion内容样式 */
+.notion-content h1 {
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+
+.notion-content h2 {
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+
+.notion-content h3 {
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+
+.notion-content p {
+    margin-bottom: 0.5em;
+}
+
+.notion-content ul, .notion-content ol {
+    padding-left: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.notion-content blockquote {
+    border-left: 3px solid #ddd;
+    padding-left: 1em;
+    color: #666;
+    font-style: italic;
+}
+
+.notion-content code {
+    font-family: monospace;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+}
+
+.notion-content pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 1em;
+    border-radius: 3px;
+    overflow-x: auto;
+}
+
+/* 富文本样式 */
+.notion-content .bold {
+    font-weight: bold;
+}
+
+.notion-content .italic {
+    font-style: italic;
+}
+
+.notion-content .underline {
+    text-decoration: underline;
+}
+
+.notion-content .strikethrough {
+    text-decoration: line-through;
+}
+
+/* 切换列表样式 */
+.notion-content .toggle {
+    margin-bottom: 0.5em;
+}
+
+.notion-content .toggle-header {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.notion-content .toggle-icon {
+    margin-right: 0.5em;
+}
+
+.notion-content .toggle-content {
+    margin-left: 1.5em;
+    display: none;
+}
+
+.notion-content .toggle.open .toggle-content {
+    display: block;
+}
